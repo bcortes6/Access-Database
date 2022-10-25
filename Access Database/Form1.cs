@@ -22,6 +22,7 @@ namespace Access_Database
         private void Form1_Load(object sender, EventArgs e)
         {
             LlenarGrid();
+            txtID.Enabled = false;
         }
         void LlenarGrid()
         {
@@ -40,8 +41,38 @@ namespace Access_Database
             cmd.ExecuteNonQuery();
             conn.Close();
             MessageBox.Show("Registro exitosamente guardado");
-            //LimpiarTexto();
+            LimpiarTexto();
+            LlenarGrid();
+        }
+
+        void LimpiarTexto()
+        {
+            txtID.Text = "";
+            txtNombre.Text = "";
+            txtEdad.Text = "";
+        }
+
+        private void btnBorrar_Click(object sender, EventArgs e)
+        {
+            conn.Open();
+            OleDbCommand cmd = new OleDbCommand("delete from TablaPersona where Id=" + txtEdad.Text + " ", conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            MessageBox.Show("Registro eliminado.");
+            LimpiarTexto();
+            LlenarGrid();
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            conn.Open();
+            OleDbCommand cmd = new OleDbCommand("update TablaPersona set Nombre ='" + txtNombre.Text + "', Edad=" + txtEdad.Text + "where Id=" + txtID.Text + " ", conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            MessageBox.Show("Registro actualizado.");
+            LimpiarTexto();
             LlenarGrid();
         }
     }
 }
+
